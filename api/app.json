@@ -1,0 +1,8 @@
+{
+  "name": "Employer Watch API",
+  "description": "",
+  "repository": "",
+  "logo": "",
+  "keywords": ["employer", "watch", "search"],
+  "image": "heroku/nodejs"
+}
