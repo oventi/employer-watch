@@ -96,7 +96,9 @@ class EmployerWatch extends React.Component {
     }
 
     get_search_box() {
-        let brand = <i className="fa fa-eye" aria-hidden="true"></i>
+        //let brand = <i className="fa fa-eye" aria-hidden="true"></i>
+        let brand = null
+
         let search = (
             <InputGroup>
                 <Input type="search" />
@@ -113,7 +115,9 @@ class EmployerWatch extends React.Component {
             rows.push(
                 <Row key="brand">
                     <Col>
-                        <h1>{brand} <span>Employer Watch</span></h1>
+                        <h1 className="h3">
+                            {brand} <span>Search Work Exploitation Reports</span>
+                        </h1>
                     </Col>
                 </Row>
             )
@@ -123,8 +127,8 @@ class EmployerWatch extends React.Component {
         else {
             rows.push(
                 <Row key="brand_search">
-                    <Col key="search_brand" xs="2"><h1>{brand}</h1></Col>
-                    <Col key="search_box" xs="10">{search}</Col>
+                    {<Col key="search_brand" xs="2"><h1>{brand}</h1></Col>}
+                    <Col key="search_box" xs="12">{search}</Col>
                 </Row>
             )
         }
@@ -156,10 +160,10 @@ class EmployerWatch extends React.Component {
 
                 <div id="footer" className={footer_class}>
                     <div className="card-block p-3">
-                        <p className="mb-2">
-                            Employer Watch Application. &copy; 2017 <a href="http://oventi.org">Oventi</a>.
+                        <p className="mb-2 text-center">
+                            <a href="https://github.com/oventi/employer-watch">Employer Watch</a>. &copy; 2017 <a href="http://oventi.org">Oventi</a>.
                         </p>
-                        <p className="mb-0">
+                        <p className="mb-0 text-center">
                             <a href="https://www.fairwork.gov.au/about-us/news-and-media-releases">News and media releases</a>.
                             &copy; <a href="https://www.fairwork.gov.au/">FWO</a> under &nbsp;
                             <a rel="license" href="https://creativecommons.org/licenses/by/3.0/au/legalcode"><img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>

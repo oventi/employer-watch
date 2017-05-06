@@ -21964,7 +21964,9 @@
 	    }, {
 	        key: 'get_search_box',
 	        value: function get_search_box() {
-	            var brand = _react2.default.createElement('i', { className: 'fa fa-eye', 'aria-hidden': 'true' });
+	            //let brand = <i className="fa fa-eye" aria-hidden="true"></i>
+	            var brand = null;
+
 	            var search = _react2.default.createElement(
 	                _reactstrap.InputGroup,
 	                null,
@@ -21990,13 +21992,13 @@
 	                        null,
 	                        _react2.default.createElement(
 	                            'h1',
-	                            null,
+	                            { className: 'h3' },
 	                            brand,
 	                            ' ',
 	                            _react2.default.createElement(
 	                                'span',
 	                                null,
-	                                'Employer Watch'
+	                                'Search Work Exploitation Reports'
 	                            )
 	                        )
 	                    )
@@ -22026,7 +22028,7 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactstrap.Col,
-	                        { key: 'search_box', xs: '10' },
+	                        { key: 'search_box', xs: '12' },
 	                        search
 	                    )
 	                ));
@@ -22068,8 +22070,13 @@
 	                        { className: 'card-block p-3' },
 	                        _react2.default.createElement(
 	                            'p',
-	                            { className: 'mb-2' },
-	                            'Employer Watch Application. \xA9 2017 ',
+	                            { className: 'mb-2 text-center' },
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: 'https://github.com/oventi/employer-watch' },
+	                                'Employer Watch'
+	                            ),
+	                            '. \xA9 2017 ',
 	                            _react2.default.createElement(
 	                                'a',
 	                                { href: 'http://oventi.org' },
@@ -22079,7 +22086,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'p',
-	                            { className: 'mb-0' },
+	                            { className: 'mb-0 text-center' },
 	                            _react2.default.createElement(
 	                                'a',
 	                                { href: 'https://www.fairwork.gov.au/about-us/news-and-media-releases' },
