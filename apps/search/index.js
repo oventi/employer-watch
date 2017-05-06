@@ -1,6 +1,6 @@
 'use strict'
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 const restify = require('restify')
 
 let server = restify.createServer({})
@@ -19,5 +19,5 @@ server.get(/\/?.*/, restify.serveStatic({
 }))
 
 server.listen(PORT, () => {
-    console.log('SPRA is running on port', PORT)
+    console.log('Employer Watch Search is running on port', PORT)
 })

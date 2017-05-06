@@ -60,9 +60,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var root = document.getElementById('root');
+	var api_endpoint = 'https://employer-watch-api.herokuapp.com';
+	//const api_endpoint = 'http://localhost:5000'
 
-	_reactDom2.default.render(_react2.default.createElement(_EmployerWatch2.default, null), root);
+	var root = document.getElementById('root');
+	_reactDom2.default.render(_react2.default.createElement(_EmployerWatch2.default, { 'api-endpoint': api_endpoint }), root);
 
 /***/ }),
 /* 1 */
@@ -21840,8 +21842,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api_url = 'https://employer-watch-api.herokuapp.com';
-
 	var EmployerWatch = function (_React$Component) {
 	    (0, _inherits3.default)(EmployerWatch, _React$Component);
 
@@ -21876,7 +21876,7 @@
 	            this.setState({ term: term, searching: true, results: [], error: false, search_count: search_count });
 	            $input.blur();
 
-	            var api_call_url = api_url + '/search?term=' + encodeURIComponent(term);
+	            var api_call_url = this.props['api-endpoint'] + '/search?term=' + encodeURIComponent(term);
 	            $.getJSON(api_call_url, function (data) {
 	                _this2.setState({ searching: false, results: data, error: typeof data.error !== 'undefined' });
 	            }).fail(function (jqx, status) {

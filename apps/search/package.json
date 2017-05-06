@@ -2,13 +2,14 @@
   "private": true,
   "name": "employer-watch-search",
   "version": "0.0.1",
-  "description": "A proof-of-concept app that uses the api to search work exploitation reports",
+  "description": "A proof-of-concept app that uses the Employer Watch API to search work exploitation reports",
   "engines": {
     "node": "5.9.1"
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "npm run webpack; node index.js",
+    "webpack": "webpack",
     "webpack-watch": "webpack -w",
     "dev": "concurrently --kill-others \"npm run webpack-watch\" \"npm run start\"",
     "test": "echo \"Error: no test specified\" && exit 1"

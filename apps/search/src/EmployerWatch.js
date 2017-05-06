@@ -6,8 +6,6 @@ import {
 } from 'reactstrap'
 import SearchResult from './SearchResult.js'
 
-const api_url = 'https://employer-watch-api.herokuapp.com'
-
 class EmployerWatch extends React.Component {
     constructor(props) {
         super(props)
@@ -33,7 +31,7 @@ class EmployerWatch extends React.Component {
         this.setState({ term: term, searching: true, results: [], error: false, search_count: search_count })
         $input.blur()
 
-        let api_call_url = `${api_url}/search?term=${encodeURIComponent(term)}`
+        let api_call_url = `${this.props['api-endpoint']}/search?term=${encodeURIComponent(term)}`
         $.getJSON(api_call_url, data => {
             this.setState({ searching: false, results: data, error: (typeof data.error !== 'undefined') })
         }).fail((jqx, status) => {
