@@ -12,6 +12,8 @@ Ever since I migrated to Australia, I have noticed and keept my self informed ab
 ## Roadmap
 * Data
   * Define data structures
+  * Crawl web pages and other resources to find work exploitation data ([FWO](https://www.fairwork.gov.au/about-us/news-and-media-releases) for example)
+  * Data mine and ETL to data structures
   * Setup distributed NoSQL databases
 * API
   * Define resources / calls and paths (consider data's country of origin)
