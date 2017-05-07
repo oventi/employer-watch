@@ -26,6 +26,14 @@ Ever since I migrated to Australia, I have noticed and keept my self informed ab
   * iOS/Android apps with React Native
   * Web based app to register complaints for a company
 
+## Examples
+
+[Proof of concept API](./api): search work exploitation reports
+
+[Proof of search app](./apps/search): react web app to use POC api and search reports
+
+----
+
 ## Proposed API calls
 - Search work exploitation reports by full text and keywords
 - Search employers who are exploiting workers by employer name and location
@@ -38,8 +46,6 @@ Ever since I migrated to Australia, I have noticed and keept my self informed ab
 - List of fair and unfair employers per country
 - Map of work exploitation
 - Check exploitation reports of an employer
-
-----
 
 ## Preliminary Data Structures
 
