@@ -9,6 +9,21 @@ Ever since I migrated to Australia, I have noticed and keept my self informed ab
 1. Help people find a fair place to apply for a job, avoiding exploitation
 2. Let consumers buy from fair workplaces and avoid places who exploit employees
 
+## Roadmap
+* Data
+  * Define data structures
+  * Setup distributed NoSQL databases
+* API
+  * Define resources / calls and paths (consider data's country of origin)
+  * Define calls for registering new company's work exploitation complaints / reports
+  * Implement code with NodeJS
+  * Setup in AWS
+  * [Try Lambda with API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html)
+* Apps
+  * Search app with React
+  * iOS/Android apps with React Native
+  * Web based app to register complaints for a company
+
 ## Proposed API calls
 - Search work exploitation reports by full text and keywords
 - Search employers who are exploiting workers by employer name and location
