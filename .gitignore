@@ -44,3 +44,6 @@ jspm_packages
 # Docker
 Dockerfile
 docker-compose.yml
+
+# Project specific
+api/employer-watch-api-index/

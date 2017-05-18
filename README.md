@@ -1,6 +1,6 @@
 # Employer Watch
-API and apps to identify and show which employers are paying unfairly to their employees 
-Prototype application: http://apps.oventi.net/employer-watch 
+API and apps to identify and show which employers are paying unfairly to their employees
+Prototype application: http://apps.oventi.net/employer-watch
 
 ## Motivation
 Ever since I migrated to Australia, I have noticed and keept my self informed about work exploitation. The issue started affecting me more personally when my partner was underpaid in a job. I [wrote about](http://15hoursahead.com/worker-exploitation-in-australia/) it in my blog, and algo got motivated to create a way to show employers who underpay.
@@ -8,6 +8,8 @@ Ever since I migrated to Australia, I have noticed and keept my self informed ab
 ## Purpose
 1. Help people find a fair place to apply for a job, avoiding exploitation
 2. Let consumers buy from fair workplaces and avoid places who exploit employees
+
+## [Frequently Asked Questions](docs/faq.md)
 
 ## Proposed API calls
 - Search work exploitation reports by full text and keywords
