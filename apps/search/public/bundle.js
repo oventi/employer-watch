@@ -60,8 +60,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api_endpoint = 'https://employer-watch-api.herokuapp.com';
-	//const api_endpoint = 'http://localhost:5000'
+	//const api_endpoint = 'https://employer-watch-api.herokuapp.com'
+	var api_endpoint = 'http://localhost:5000';
 
 	var root = document.getElementById('root');
 	_reactDom2.default.render(_react2.default.createElement(_EmployerWatch2.default, { 'api-endpoint': api_endpoint }), root);
