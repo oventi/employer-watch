@@ -3,12 +3,14 @@
 const config = require('../config.js')
 
 class FwoReportApi {
-    constructor(restify_server) {
+    constructor(restify_server, redis_client) {
         this.action = this.action.bind(this)
         this.on_request = this.on_request.bind(this)
 
         this.server = restify_server
         this.server.pre(this.on_request)
+
+        this.redis = redis_client
     }
 
     on_request(req, res, next) {
@@ -37,6 +39,7 @@ class FwoReportApi {
         let json = JSON.stringify(data)
 
         console.log(`SET ${key} ${json}`)
+        this.redis.set(key, json);
 
         return {}
     }
