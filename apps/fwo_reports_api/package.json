@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "employer-watch-fwo-reports-api",
+  "version": "0.0.1",
+  "description": "",
+  "engines": {
+    "node": "5.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "restify": "^4.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "node",
+    "employer-watch",
+    "employer-watch-fwo-reports-api",
+    "fwo"
+  ],
+  "license": "GPL-3.0"
+}
