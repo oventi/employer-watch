@@ -4,8 +4,10 @@ const restify = require('restify')
 
 class EmployerWatchApi {
     constructor(search_index, restify_server) {
-        this.search = this.search.bind(this)
         this.on_request = this.on_request.bind(this)
+
+        this.search = this.search.bind(this)
+        this.list = this.list.bind(this)
 
         this.search_index = search_index
         this.search_index.on_ready(() => {
@@ -40,6 +42,18 @@ class EmployerWatchApi {
                 res.send(200, results)
             })
             .catch(err => console.error(err))
+
+        next()
+    }
+
+    list(req, res, next) {
+        console.log('EmployerWatchApi::list')
+
+        this.search_index.search({
+            pageSize: 1
+        }).then(results => {
+            res.send(200, results)
+        }).catch(err => console.error(err))
 
         next()
     }
