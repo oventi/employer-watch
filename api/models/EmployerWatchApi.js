@@ -45,18 +45,6 @@ class EmployerWatchApi {
 
         next()
     }
-
-    list(req, res, next) {
-        console.log('EmployerWatchApi::list')
-
-        this.search_index.search({
-            pageSize: 1
-        }).then(results => {
-            res.send(200, results)
-        }).catch(err => console.error(err))
-
-        next()
-    }
 }
 
 module.exports = EmployerWatchApi
