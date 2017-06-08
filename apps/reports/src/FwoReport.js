@@ -18,17 +18,31 @@ class FwoReport extends React.Component {
     save_report(e) {
         let data = {}
 
+        let card = $(e.currentTarget).closest('.card')
+        let button = $(e.currentTarget)
+        let spinner = $(e.currentTarget).parent().find('.saving')
+        button.hide()
+        spinner.show()
+
         let $inputs = $(e.currentTarget).parent().find('input')
         $inputs.each((index, input) => {
             let $input = $(input)
             data[$input.attr('name')] = $input.val()
         })
 
+        //console.log(config.persistence_api)
+        let persistence_uri = `${config.persistence_api}/save`
         $.ajax({
-            url: `${config.api}/save`, type: 'post', data: JSON.stringify(data),
+            url: persistence_uri, type: 'post', data: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' },
             dataType: 'json',
-            success: () => {}
+            success: () => {
+                card.slideUp()
+
+                let cards = JSON.parse(localStorage.cards)
+                cards[card.attr('id')] = true
+                localStorage.cards = JSON.stringify(cards)
+            }
         })
     }
 
@@ -42,14 +56,14 @@ class FwoReport extends React.Component {
                 report.meta.locations.divisions[0] : ''
 
         return (
-            <Card key={report.key}>
+            <Card key={report.key} id={report.key}>
                 <CardBlock>
                     <CardTitle className="h5">{report.title}</CardTitle>
                     <Row>
-                        <Col key="report_text">
+                        <Col key="report_text" className="report_text">
                             <CardText>{report.text}</CardText>
                         </Col>
-                        <Col key="report_meta">
+                        <Col key="report_meta"  >
                             <Form action="/api/save" method="post" className="fwo_report">
                                 <input type="hidden" name="key" value={report.key} />
 
@@ -60,26 +74,15 @@ class FwoReport extends React.Component {
                                 <FwoReportMetaField name="state" label="State / Territory" value={state} />
 
                                 <Button onClick={this.save_report} color="success">save</Button>
+                                <div className="saving">
+                                    <i className="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                </div>
                             </Form>
                         </Col>
                     </Row>
                 </CardBlock>
             </Card>
         )
-
-        /*
-        <div className="form-group row">
-            <Col><input type="text" className="form-control" value={company} placeholder="Company name" /></Col>
-            <Col><input type="text" className="form-control" placeholder="Trading name" /></Col>
-        </div>
-        <div className="form-group">
-            <input type="text" className="form-control" placeholder="Address" />
-        </div>
-        <div className="form-group row">
-            <Col><input type="text" className="form-control" placeholder="City / Town" value={city} /></Col>
-            <Col><input type="text" className="form-control" placeholder="State / Territory" value={state} /></Col>
-        </div>
-        */
     }
 }
 

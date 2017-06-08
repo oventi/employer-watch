@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FwoReports from './FwoReports.js'
+import ReportList from './ReportList.js'
 
 let root = document.getElementById('root')
-ReactDOM.render(<FwoReports />, root)
+ReactDOM.render(<ReportList />, root)

@@ -22,6 +22,17 @@ body {
     margin-bottom: 1em;
 }
 
+.report_text {
+    height: 308px;
+    overflow: auto;
+}
+
 form.fwo_report div.input-group {
     margin-bottom: 1em;
+}
+
+.saving {
+    display: none;
+    text-align: center;
+    font-size: 1.5em;
 }

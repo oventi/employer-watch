@@ -54,14 +54,14 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _FwoReports = __webpack_require__(182);
+	var _ReportList = __webpack_require__(182);
 
-	var _FwoReports2 = _interopRequireDefault(_FwoReports);
+	var _ReportList2 = _interopRequireDefault(_ReportList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var root = document.getElementById('root');
-	_reactDom2.default.render(_react2.default.createElement(_FwoReports2.default, null), root);
+	_reactDom2.default.render(_react2.default.createElement(_ReportList2.default, null), root);
 
 /***/ }),
 /* 1 */
@@ -21839,47 +21839,84 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var config = __webpack_require__(288).default;
+	var config = __webpack_require__(288);
 
-	var FwoReports = function (_React$Component) {
-	    (0, _inherits3.default)(FwoReports, _React$Component);
+	var ReportList = function (_React$Component) {
+	    (0, _inherits3.default)(ReportList, _React$Component);
 
-	    function FwoReports(props) {
-	        (0, _classCallCheck3.default)(this, FwoReports);
+	    function ReportList(props) {
+	        (0, _classCallCheck3.default)(this, ReportList);
 
-	        var _this = (0, _possibleConstructorReturn3.default)(this, (FwoReports.__proto__ || (0, _getPrototypeOf2.default)(FwoReports)).call(this, props));
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (ReportList.__proto__ || (0, _getPrototypeOf2.default)(ReportList)).call(this, props));
 
 	        _this.default_state = { reports: [], loading: true };
 	        _this.state = _this.default_state;
+
+	        _this.load_reports = _this.load_reports.bind(_this);
+	        _this.previous_page = _this.previous_page.bind(_this);
+	        _this.next_page = _this.next_page.bind(_this);
+
+	        //localStorage.page = 1
+	        if (typeof localStorage.cards === 'undefined') {
+	            localStorage.cards = '{}';
+	        }
 	        return _this;
 	    }
 
-	    (0, _createClass3.default)(FwoReports, [{
-	        key: 'search',
-	        value: function search() {
-	            var _this2 = this;
-
-	            var api_call_url = this.props['api-endpoint'] + '/search?term=' + encodeURIComponent(term);
-	            $.getJSON(api_call_url, function (data) {
-	                _this2.setState({ searching: false, results: data, error: typeof data.error !== 'undefined' });
-	            }).fail(function (jqx, status) {
-	                _this2.setState({ searching: false, error: true });
-	            });
-	        }
-	    }, {
+	    (0, _createClass3.default)(ReportList, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var _this3 = this;
+	            $('button.previous').click(this.previous_page);
+	            $('button.next').click(this.next_page);
 
-	            $.getJSON('/fwo_reports.json', function (report_list) {
+	            this.load_reports(this.get_current_page());
+	        }
+	    }, {
+	        key: 'get_current_page',
+	        value: function get_current_page() {
+	            var page = typeof localStorage.page === 'undefined' ? 1 : localStorage.page;
 
+	            return parseInt(page);
+	        }
+	    }, {
+	        key: 'previous_page',
+	        value: function previous_page() {
+	            var page = this.get_current_page();
+	            var previous_page = page > 1 ? page - 1 : 1;
+
+	            this.load_reports(previous_page);
+	        }
+	    }, {
+	        key: 'next_page',
+	        value: function next_page() {
+	            var page = this.get_current_page();
+	            var next_page = page + 1;
+
+	            this.load_reports(next_page);
+	        }
+	    }, {
+	        key: 'load_reports',
+	        value: function load_reports(page) {
+	            var _this2 = this;
+
+	            var page_size = 10;
+	            var reports_uri = config.employer_watch_api + '/list?page=' + page + '&page_size=' + page_size;
+
+	            $.getJSON(reports_uri, function (report_list) {
 	                var reports = [];
 
 	                report_list.forEach(function (report) {
-	                    reports.push(_react2.default.createElement(_FwoReport2.default, { key: report.key, data: report }));
+	                    //console.log('localStorage.cards', localStorage.cards)
+	                    var cards = JSON.parse(localStorage.cards);
+	                    if (!cards[report.key]) {
+	                        reports.push(_react2.default.createElement(_FwoReport2.default, { key: report.key, data: report }));
+	                    }
 	                });
 
-	                _this3.setState({ reports: reports.slice(0, 5) });
+	                if (reports.length > 0) {
+	                    _this2.setState({ reports: reports });
+	                    localStorage.page = page;
+	                }
 	            });
 	        }
 	    }, {
@@ -21891,14 +21928,53 @@
 	            return _react2.default.createElement(
 	                _reactstrap.Container,
 	                { fluid: true },
-	                this.state.reports
+	                _react2.default.createElement(
+	                    _reactstrap.Row,
+	                    null,
+	                    _react2.default.createElement(
+	                        _reactstrap.Col,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactstrap.Button,
+	                            { className: 'previous float-left' },
+	                            'previous'
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactstrap.Button,
+	                            { className: 'next float-right' },
+	                            'next'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement('hr', null),
+	                this.state.reports,
+	                _react2.default.createElement('hr', null),
+	                _react2.default.createElement(
+	                    _reactstrap.Row,
+	                    null,
+	                    _react2.default.createElement(
+	                        _reactstrap.Col,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactstrap.Button,
+	                            { className: 'previous float-left' },
+	                            'previous'
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactstrap.Button,
+	                            { className: 'next float-right' },
+	                            'next'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement('br', null)
 	            );
 	        }
 	    }]);
-	    return FwoReports;
+	    return ReportList;
 	}(_react2.default.Component);
 
-	exports.default = FwoReports;
+	exports.default = ReportList;
 
 /***/ }),
 /* 183 */
@@ -25676,17 +25752,31 @@
 	        value: function save_report(e) {
 	            var data = {};
 
+	            var card = $(e.currentTarget).closest('.card');
+	            var button = $(e.currentTarget);
+	            var spinner = $(e.currentTarget).parent().find('.saving');
+	            button.hide();
+	            spinner.show();
+
 	            var $inputs = $(e.currentTarget).parent().find('input');
 	            $inputs.each(function (index, input) {
 	                var $input = $(input);
 	                data[$input.attr('name')] = $input.val();
 	            });
 
+	            //console.log(config.persistence_api)
+	            var persistence_uri = config.persistence_api + '/save';
 	            $.ajax({
-	                url: config.api + '/save', type: 'post', data: (0, _stringify2.default)(data),
+	                url: persistence_uri, type: 'post', data: (0, _stringify2.default)(data),
 	                headers: { 'Content-Type': 'application/json' },
 	                dataType: 'json',
-	                success: function success() {}
+	                success: function success() {
+	                    card.slideUp();
+
+	                    var cards = JSON.parse(localStorage.cards);
+	                    cards[card.attr('id')] = true;
+	                    localStorage.cards = (0, _stringify2.default)(cards);
+	                }
 	            });
 	        }
 	    }, {
@@ -25700,7 +25790,7 @@
 
 	            return _react2.default.createElement(
 	                _reactstrap.Card,
-	                { key: report.key },
+	                { key: report.key, id: report.key },
 	                _react2.default.createElement(
 	                    _reactstrap.CardBlock,
 	                    null,
@@ -25714,7 +25804,7 @@
 	                        null,
 	                        _react2.default.createElement(
 	                            _reactstrap.Col,
-	                            { key: 'report_text' },
+	                            { key: 'report_text', className: 'report_text' },
 	                            _react2.default.createElement(
 	                                _reactstrap.CardText,
 	                                null,
@@ -25737,26 +25827,17 @@
 	                                    _reactstrap.Button,
 	                                    { onClick: this.save_report, color: 'success' },
 	                                    'save'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'saving' },
+	                                    _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin', 'aria-hidden': 'true' })
 	                                )
 	                            )
 	                        )
 	                    )
 	                )
 	            );
-
-	            /*
-	            <div className="form-group row">
-	                <Col><input type="text" className="form-control" value={company} placeholder="Company name" /></Col>
-	                <Col><input type="text" className="form-control" placeholder="Trading name" /></Col>
-	            </div>
-	            <div className="form-group">
-	                <input type="text" className="form-control" placeholder="Address" />
-	            </div>
-	            <div className="form-group row">
-	                <Col><input type="text" className="form-control" placeholder="City / Town" value={city} /></Col>
-	                <Col><input type="text" className="form-control" placeholder="State / Territory" value={state} /></Col>
-	            </div>
-	            */
 	        }
 	    }]);
 	    return FwoReport;
@@ -25841,7 +25922,7 @@
 	                    null,
 	                    this.props.label
 	                ),
-	                _react2.default.createElement(_reactstrap.Input, { name: this.props.name, value: this.props.value })
+	                _react2.default.createElement(_reactstrap.Input, { name: this.props.name, defaultValue: this.props.value })
 	            );
 
 	            /*
@@ -25866,8 +25947,9 @@
 	'use strict';
 
 	module.exports = {
-	    api: 'http://ec2-52-221-184-110.ap-southeast-1.compute.amazonaws.com:5003',
-	    api_local: 'http://localhost:5003',
+	    employer_watch_api: 'http://192.168.0.104:5003',
+	    persistence_api: 'http://192.168.0.104:5003',
+	    persistence_api2: 'http://ec2-52-77-254-63.ap-southeast-1.compute.amazonaws.com:5003',
 	    key_prefixes: {
 	        reports: {
 	            au: 'reports.au'

@@ -10,7 +10,7 @@ class FwoReportMetaField extends React.Component {
         return (
             <InputGroup>
                 <InputGroupAddon>{this.props.label}</InputGroupAddon>
-                <Input name={this.props.name} value={this.props.value} />
+                <Input name={this.props.name} defaultValue={this.props.value} />
             </InputGroup>
         )
 
