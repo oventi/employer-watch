@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "redis": "^2.7.1",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "supervisor": "^0.12.0"
   },
   "repository": {
     "type": "git",
