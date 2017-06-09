@@ -10,6 +10,7 @@ class FwoReportApi {
         this.on_request = this.on_request.bind(this)
         this.set_reports = this.set_reports.bind(this)
         this.list = this.list.bind(this)
+        this.save = this.save.bind(this)
 
         this.server = restify_server
         this.server.pre(this.on_request)

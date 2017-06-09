@@ -25820,7 +25820,6 @@
 	                                _react2.default.createElement('input', { type: 'hidden', name: 'key', value: report.key }),
 	                                _react2.default.createElement(_FwoReportMetaField2.default, { name: 'company', label: 'Company name', value: company }),
 	                                _react2.default.createElement(_FwoReportMetaField2.default, { name: 'trading', label: 'Trading name', value: '' }),
-	                                _react2.default.createElement(_FwoReportMetaField2.default, { name: 'address', label: 'Address', value: '' }),
 	                                _react2.default.createElement(_FwoReportMetaField2.default, { name: 'city', label: 'City / Town', value: city }),
 	                                _react2.default.createElement(_FwoReportMetaField2.default, { name: 'state', label: 'State / Territory', value: state }),
 	                                _react2.default.createElement(
@@ -25947,9 +25946,9 @@
 	'use strict';
 
 	module.exports = {
-	    employer_watch_api: 'http://192.168.0.104:5003',
-	    persistence_api: 'http://192.168.0.104:5003',
-	    persistence_api2: 'http://ec2-52-77-254-63.ap-southeast-1.compute.amazonaws.com:5003',
+	    employer_watch_api: 'http://ec2-54-179-168-36.ap-southeast-1.compute.amazonaws.com:5003',
+	    persistence_api_local: 'http://192.168.0.104:5003',
+	    persistence_api: 'http://ec2-54-179-168-36.ap-southeast-1.compute.amazonaws.com:5003',
 	    key_prefixes: {
 	        reports: {
 	            au: 'reports.au'

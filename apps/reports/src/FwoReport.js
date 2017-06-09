@@ -69,7 +69,7 @@ class FwoReport extends React.Component {
 
                                 <FwoReportMetaField name="company" label="Company name" value={company} />
                                 <FwoReportMetaField name="trading" label="Trading name" value="" />
-                                <FwoReportMetaField name="address" label="Address" value="" />
+                                {/*<FwoReportMetaField name="address" label="Address" value="" />*/}
                                 <FwoReportMetaField name="city" label="City / Town" value={city} />
                                 <FwoReportMetaField name="state" label="State / Territory" value={state} />
 
