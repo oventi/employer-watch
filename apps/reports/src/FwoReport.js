@@ -42,6 +42,8 @@ class FwoReport extends React.Component {
                 let cards = JSON.parse(localStorage.cards)
                 cards[card.attr('id')] = true
                 localStorage.cards = JSON.stringify(cards)
+
+                this.props.after_action()
             }
         })
     }
@@ -73,7 +75,8 @@ class FwoReport extends React.Component {
                                 <FwoReportMetaField name="city" label="City / Town" value={city} />
                                 <FwoReportMetaField name="state" label="State / Territory" value={state} />
 
-                                <Button onClick={this.save_report} color="success">save</Button>
+                                <Button onClick={this.save_report} color="success" className="float-left">save</Button>
+                                <Button onClick={this.props.after_action} color="secondary" className="float-right">dismiss</Button>
                                 <div className="saving">
                                     <i className="fa fa-spinner fa-spin" aria-hidden="true"></i>
                                 </div>

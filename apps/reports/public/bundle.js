@@ -21899,7 +21899,8 @@
 	        value: function load_reports(page) {
 	            var _this2 = this;
 
-	            var page_size = 10;
+	            console.log('load_reports', page);
+	            var page_size = 1;
 	            var reports_uri = config.employer_watch_api + '/list?page=' + page + '&page_size=' + page_size;
 
 	            $.getJSON(reports_uri, function (report_list) {
@@ -21909,7 +21910,7 @@
 	                    //console.log('localStorage.cards', localStorage.cards)
 	                    var cards = JSON.parse(localStorage.cards);
 	                    if (!cards[report.key]) {
-	                        reports.push(_react2.default.createElement(_FwoReport2.default, { key: report.key, data: report }));
+	                        reports.push(_react2.default.createElement(_FwoReport2.default, { key: report.key, data: report, dismiss: _this2.next_page }));
 	                    }
 	                });
 
@@ -21921,53 +21922,17 @@
 	        }
 	    }, {
 	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate() {}
+	        value: function componentDidUpdate() {
+	            $('.card').height($(document).innerHeight() - 50 + 'px');
+	            $('.report_text').height($(document).innerHeight() - 120 + 'px');
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                _reactstrap.Container,
 	                { fluid: true },
-	                _react2.default.createElement(
-	                    _reactstrap.Row,
-	                    null,
-	                    _react2.default.createElement(
-	                        _reactstrap.Col,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactstrap.Button,
-	                            { className: 'previous float-left' },
-	                            'previous'
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactstrap.Button,
-	                            { className: 'next float-right' },
-	                            'next'
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement('hr', null),
-	                this.state.reports,
-	                _react2.default.createElement('hr', null),
-	                _react2.default.createElement(
-	                    _reactstrap.Row,
-	                    null,
-	                    _react2.default.createElement(
-	                        _reactstrap.Col,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactstrap.Button,
-	                            { className: 'previous float-left' },
-	                            'previous'
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactstrap.Button,
-	                            { className: 'next float-right' },
-	                            'next'
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement('br', null)
+	                this.state.reports
 	            );
 	        }
 	    }]);
@@ -25824,8 +25789,13 @@
 	                                _react2.default.createElement(_FwoReportMetaField2.default, { name: 'state', label: 'State / Territory', value: state }),
 	                                _react2.default.createElement(
 	                                    _reactstrap.Button,
-	                                    { onClick: this.save_report, color: 'success' },
+	                                    { onClick: this.save_report, color: 'success', className: 'float-left' },
 	                                    'save'
+	                                ),
+	                                _react2.default.createElement(
+	                                    _reactstrap.Button,
+	                                    { onClick: this.props.dismiss, color: 'secondary', className: 'float-right' },
+	                                    'dismiss'
 	                                ),
 	                                _react2.default.createElement(
 	                                    'div',
@@ -25946,7 +25916,7 @@
 	'use strict';
 
 	module.exports = {
-	    employer_watch_api: 'http://ec2-54-179-168-36.ap-southeast-1.compute.amazonaws.com:5003',
+	    employer_watch_api: 'http://localhost:5003',
 	    persistence_api_local: 'http://192.168.0.104:5003',
 	    persistence_api: 'http://ec2-54-179-168-36.ap-southeast-1.compute.amazonaws.com:5003',
 	    key_prefixes: {

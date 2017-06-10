@@ -23,7 +23,7 @@ body {
 }
 
 .report_text {
-    height: 308px;
+    height: 600px;
     overflow: auto;
 }
 
