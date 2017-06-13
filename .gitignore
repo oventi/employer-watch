@@ -48,4 +48,6 @@ docker-compose.yml
 # Project specific
 api/employer-watch-api-index/
 config.js
-/**/config.js
+apps/**/config.js
+apps/reports/src/config.js
+apps/reports/src/config.js
