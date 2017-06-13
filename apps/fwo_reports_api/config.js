@@ -3,7 +3,7 @@ module.exports = {
     json_documents_url2: 'http://cdn.oventi.net/fwo_media_releases.test.json',
 
     redis: {
-        connect: false,
+        connect: true,
         host: 'employer-watch.fovchw.0001.apse1.cache.amazonaws.com',
         port: 6379
     },
