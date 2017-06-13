@@ -30,8 +30,8 @@ class FwoReport extends React.Component {
             data[$input.attr('name')] = $input.val()
         })
 
-        //console.log(config.persistence_api)
-        let persistence_uri = `${config.persistence_api}/save`
+        let uri = window.location.href.replace(':5002', ':5003')
+        let persistence_uri = `${uri}/save`
         $.ajax({
             url: persistence_uri, type: 'post', data: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' },
