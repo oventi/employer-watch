@@ -2,7 +2,7 @@
 
 const PORT = process.env.PORT || 5003
 const restify = require('restify')
-const config = require('config.js')
+const config = require('./config.js')
 const redis = require('redis')
 const FwoReportApi = require('./models/FwoReportApi.js')
 const request = require('request')
@@ -15,12 +15,13 @@ server.use(restify.plugins.bodyParser())
 
 // building report list
 let report_list = []
-request(json_documents_url)
+request(config.json_documents_url)
     .pipe(JSONStream.parse())
     .pipe(es.mapSync(data => {
         report_list.push(data)
     }))
     .on('end', () => {
+        console.log('Report list loaded')
         api.set_reports(report_list)
     })
 
