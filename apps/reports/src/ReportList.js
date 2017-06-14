@@ -52,7 +52,7 @@ class ReportList extends React.Component {
     load_reports(page) {
         console.log('load_reports', page)
         let page_size = 1;
-        let uri = window.location.href.replace(':5002', ':5003')
+        let uri = window.location.href.replace(':5002/', ':5003')
         let reports_uri = `${uri}/list?page=${page}&page_size=${page_size}`
 
         $.getJSON(reports_uri, report_list => {
