@@ -18,7 +18,9 @@ let search_index = new SearchIndex()
 let api = new EmployerWatchApi(search_index, server)
 
 server.get('/search', api.search)
-server.get('/list', api.list)
+
+server.get(/1\.0\/([a-z]+)\/employer\/(.+)/, api.employer)
+server.get(/1\.0\/([a-z]+)\/employers/, api.employers)
 
 server.listen(PORT, () => {
     console.log('Employer Watch API is running on port', PORT);
