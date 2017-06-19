@@ -67,3 +67,48 @@ Ever since I migrated to Australia, I have noticed and kept myself informed abou
 - adm2: string (city, county, etc)
 - address: string
 - employers: Employer[]
+
+----
+
+## Preliminary API urls
+
+### Employer
+/1.0/au/employers
+```json
+{
+    "employers": [
+        { "id": "123", "etc": "" },
+        { "id": "456", "etc": "" }
+    ],
+    "meta": {
+        "self": "/1.0/au/employers",
+        "previous": "/1.0/au/employers",
+        "next": "/1.0/au/employers/2"
+    }
+}
+```
+
+/1.0/au/employer/[employer id]
+```json
+{ "id": "123", "etc": "" }
+```
+
+### Reports
+
+/1.0/au/reports
+```json
+{
+    "reports": [
+        { "id": "123", "etc": "" }
+    ],
+    "meta": {
+        "self": "/1.0/au/reports",
+        "previous": "/1.0/au/reports",
+        "next": "/1.0/au/reports/2"
+    }
+}
+```
+
+/1.0/au/reports/[page id/number]
+
+/1.0/au/report/[report id]
