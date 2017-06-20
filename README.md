@@ -56,10 +56,18 @@ Ever since I migrated to Australia, I have noticed and kept myself informed abou
 - reports: Report[]
 - brand: string
 
+### Source
+- organisation
+- url
+
 ### Report
-- source: enum (gov, news article, person)
-- employer: Employer
-- location: Location
+- id
+- key (temporary)
+- timestamp
+- source: Source
+- title
+- summary (meta description)
+- text
 
 ### Location
 - country: string
