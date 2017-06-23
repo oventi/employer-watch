@@ -52,9 +52,12 @@ Ever since I migrated to Australia, I have noticed and kept myself informed abou
 ## Preliminary Data Structures
 
 ### Employer
-- location: Location, Geocode or Geohash
-- reports: Report[]
+- id
+- key (temporary)
+- company: string
+- trading: string
 - brand: string
+- location: Location, Geocode or Geohash
 
 ### Source
 - organisation
