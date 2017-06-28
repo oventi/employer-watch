@@ -11,6 +11,8 @@ const Dal = require('./src/Dal.js')
 const EmployerWatchApi = require('./src/EmployerWatchApi.js')
 
 let server = restify.createServer({})
+server.use(restify.queryParser())
+
 let dal = null
 let api = new EmployerWatchApi()
 
@@ -28,7 +30,9 @@ server.get(regex, (req, res, next) => {
         res.send(response.status, response.body)
     }
 
-    api.request(req, dal).then(send_response, send_response)
+    api.request(req, dal)
+        .then(send_response, send_response)
+        .catch(error => console.error)
 
     return next()
 })
