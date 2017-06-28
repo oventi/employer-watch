@@ -1,51 +1,54 @@
 'use strict'
 
-const daos = {
-    Employers: require('./dal/Employers.js')
-}
-
 class Dal {
     constructor(db) {
         this.db = db
         this.models = {}
 
-        this.get_model = this.get_model.bind(this)
+        this.get_db = this.get_db.bind(this)
+        this.get_dao = this.get_dao.bind(this)
         this.get_all = this.get_all.bind(this)
     }
 
-    get_model(collection) {
-        let dao_name = collection.substring(0, 1).toUpperCase() + collection.substring(1)
-        let dao = null, model = null
-
-        if(this.models[dao_name]) {
-            return this.models[dao_name]
-        }
-
-        if(daos[dao_name]) {
-            dao = new daos[dao_name](this.db)
-            model = this.db.model(dao_name, dao.get_schema())
-
-            this.models[dao_name] = model
-        }
-
-        return model
+    get_db() {
+        return this.db
     }
 
-    get_all(collection) {
-        let model = this.get_model(collection)
+    get_dao(collection) {
+        let dao_name = collection.substring(0, 1).toUpperCase() + collection.substring(1)
+        let dao = null
+
+        try {
+            let dao_class = require(`./dal/${dao_name}`)
+            dao = new dao_class(this)
+        }
+        catch(error) {
+            throw error
+        }
+
+        return dao
+    }
+
+    get_all(dao) {
+        let collection = dao.constructor.name
 
         return new Promise((resolve, reject) => {
-            if(model === null) {
+            if(dao === null) {
                 // @TODO send error object
-                return reject()
+                return reject('dao is null')
             }
 
-            model.find((err, data) => {
+            if(!this.models[collection]) {
+                this.models[collection] = this.db.model(collection, dao.get_schema())
+            }
+
+            let model = this.models[collection]
+            model.find(dao.get_filter(), (err, data) => {
                 if (err) {
                     return reject(err)
                 }
 
-                resolve(data)
+                return resolve(data)
             })
         })
     }
