@@ -22,8 +22,14 @@ class Employers extends EmployerWatchApiRequest {
             }
 
             let dao = this.dal.get_dao('employers')
-            dao.add_filter({ 'location.country': this.params.country })
-            //dao.add_filter({ 'location.country': this.params.country, 'location.adm1': 'nsw' })
+
+            // show only employers where the company and trading name are non empty
+            dao.add_filter({
+                company: { $ne: ''},
+                trading: { $ne: ''},
+                'location.country': this.params.country
+                //'location.adm1': 'nsw'
+            })
 
             this.dal.get_all(dao).then(data => {
                 return resolve(data)

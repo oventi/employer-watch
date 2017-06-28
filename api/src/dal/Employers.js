@@ -3,8 +3,6 @@
 class Employers {
     constructor(dal) {
         this.dal = dal
-
-        //this.filter = { company: { $ne: ''}, trading: { $ne: ''} }
         this.filter = {}
 
         this.add_filter = this.add_filter.bind(this)
