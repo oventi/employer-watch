@@ -2,6 +2,7 @@
 
 class EmployerWatchApiRequest {
     constructor(req, params, dal) {
+        this.params = params
         this.dal = dal
 
         //this.process = this.process.bind(this)
@@ -9,26 +10,23 @@ class EmployerWatchApiRequest {
 
     process() {
     }
-}
 
-/*const requests = {
-    Employers: require('./requests/Employers.js')
-}*/
+    static create(req, resource_name, dal) {
+        let request_name = resource_name.substring(0, 1).toUpperCase() + resource_name.substring(1)
 
-EmployerWatchApiRequest.create = (req, resource_name, dal) => {
-    console.log('C')
-    let request_name = resource_name.substring(0, 1).toUpperCase() + resource_name.substring(1)
-    let request_class = require(`./requests/${request_name}.js`)
-    console.log('D', request_name)
+        try {
+            let request_class = require(`./requests/${request_name}`)
+            let params = req.params
+            let request = new request_class(req, params, dal)
 
-    //if(requests[request_name] && typeof requests[request_name] === 'function') {
-        let params = req.params
-        let request = new request_class(req, params, dal)
+            return request
+        }
+        catch(e) {
+            // @TODO notify error
+        }
 
-        return request
-    //}
-
-    return null
+        return null
+    }
 }
 
 module.exports = EmployerWatchApiRequest
