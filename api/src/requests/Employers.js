@@ -1,20 +1,32 @@
 'use strict'
 
 const EmployerWatchApiRequest = require('../EmployerWatchApiRequest.js')
+const EmployerWatchApiError = require('../EmployerWatchApiError.js')
+const ErrorTypes = EmployerWatchApiError.types
 
 class Employers extends EmployerWatchApiRequest {
     constructor(req, params, dal) {
-        console.log('E')
         super(req, params, dal)
+
+        this.process = this.process.bind(this)
     }
 
     process() {
-        console.log('F')
         return new Promise((resolve, reject) => {
-            console.log('G')
-            this.dal.get_all('employers').then(data => {
-                console.log('J')
-                resolve(data)
+            if(!this.params.country) {
+                let error = new EmployerWatchApiError()
+                    .set_status(500)
+                    .set_message('Employers: parameter country is required')
+
+                return reject(error.serialise())
+            }
+
+            let dao = this.dal.get_dao('employers')
+            dao.add_filter({ 'location.country': this.params.country })
+            //dao.add_filter({ 'location.country': this.params.country, 'location.adm1': 'nsw' })
+
+            this.dal.get_all(dao).then(data => {
+                return resolve(data)
             })
         })
     }

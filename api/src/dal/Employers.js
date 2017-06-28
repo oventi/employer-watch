@@ -1,12 +1,17 @@
 'use strict'
 
 class Employers {
-    constructor(db) {
-        this.db = db
+    constructor(dal) {
+        this.dal = dal
+
+        //this.filter = { company: { $ne: ''}, trading: { $ne: ''} }
+        this.filter = {}
+
+        this.add_filter = this.add_filter.bind(this)
     }
 
     get_schema() {
-        return this.db.Schema({
+        return this.dal.get_db().Schema({
             key: String,
             company: String,
             trading: String,
@@ -18,6 +23,16 @@ class Employers {
                 address: String
             }
         })
+    }
+
+    add_filter(filter) {
+        for(let i in filter) {
+            this.filter[i] = filter[i]
+        }
+    }
+
+    get_filter() {
+        return this.filter
     }
 }
 
