@@ -32,7 +32,17 @@ class Employers extends EmployerWatchApiRequest {
             })
 
             this.dal.get_all(dao).then(data => {
-                return resolve(data)
+                let response = {
+                    employers: data,
+                    meta: {
+                        self: `/1.1/employers?country=${this.params.country}`,
+                        previous: null,
+                        next: null
+                        //next: `/1.1/employers?country=${this.params.country}&page=2`
+                    }
+                }
+
+                return resolve(response)
             })
         })
     }

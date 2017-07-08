@@ -92,9 +92,9 @@ Ever since I migrated to Australia, I have noticed and kept myself informed abou
         { "id": "456", "etc": "" }
     ],
     "meta": {
-        "self": "/1.0/au/employers",
-        "previous": "/1.0/au/employers",
-        "next": "/1.0/au/employers/2"
+        "self": "/1.1/employers",
+        "previous": "/1.1/employers",
+        "next": "/1.1/employers/2"
     }
 }
 ```
