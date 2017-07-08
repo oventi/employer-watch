@@ -1,6 +1,25 @@
 'use strict'
 
+const
+    config = require('../config/config'),
+    mongoose = require('mongoose')
+
 class Dal {
+    // connect to database
+    static connect() {
+        let db_uri = config.db.uri.replace('[password]', config.db.password)
+
+        return new Promise((resolve, reject) => {
+            mongoose.connect(db_uri)
+            mongoose.connection.on('error', reject)
+            mongoose.connection.once('open', () => {
+                console.log(`${config.messages.cli.db_connected}`)
+
+                resolve(new Dal(mongoose))
+            })
+        })
+    }
+
     constructor(db) {
         this.db = db
         this.models = {}
