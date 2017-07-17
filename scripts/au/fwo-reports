@@ -1,0 +1,200 @@
+#!/usr/bin/env node
+'use strict'
+
+// Fetch and ingest reports from Australia's FWO
+
+const
+    program = require('commander'),
+    util = require('util'),
+    request = require('request'),
+    _ = require('lodash'),
+    cheerio = require('cheerio'),
+    moment = require('moment'),
+    mongodb = require('mongodb')
+
+let usage = 'Usage: ./fwo-reports --year [year] --month [month] --password [password]',
+    db = null,
+    reports_inserted = 0
+
+program
+  .version('0.0.1')
+  .option('-y, --year <required>', usage)
+  .option('-m, --month <required>', usage)
+  .option('-p, --password <required>', usage)
+  .parse(process.argv)
+
+// check year and month
+if(!program.year || !program.month) {
+    console.error(usage)
+    process.exit(1)
+}
+
+if(!program.password) {
+    console.error(usage)
+    process.exit(2)
+}
+
+// get the month
+let date = new Date()
+date.setMonth(program.month - 1)
+let month = date.toLocaleString('en', { month: 'long' }).toLowerCase()
+
+console.log('----- Fetching and ingesting reports from Australia\'s FWO for %s %d -----', month, program.year)
+
+let month_urls = [
+    util.format('https://www.fairwork.gov.au/about-us/news-and-media-releases/%d-media-releases/%s-%d', program.year, month, program.year),
+    util.format('https://www.fairwork.gov.au/about-us/news-and-media-releases/%d-media-releases/%s', program.year, month)
+]
+let report_urls = []
+
+let extract_report_urls = html => {
+    let a_href_matches = html.match(/<a.+href="[^\"]+">/gi)
+    let regex = new RegExp(`.*${program.year}.*${month}.*/.*`, 'gi')
+    let urls = []
+
+    a_href_matches.forEach(match => {
+        let url = match.split('"')[1]
+
+        if(url.toLocaleLowerCase().match(regex)) {
+            urls.push(url)
+        }
+    })
+
+    return urls
+}
+
+let build_report = (url, html) => {
+    let $ = cheerio.load(html)
+
+    let url_parts = url.split('/')
+    let key_parts = [url_parts.pop(), url_parts.pop(), url_parts.pop()]
+
+    let title = null
+    if($('title').length > 0) {
+        let parts = $('title').text().split('Media releases')
+
+        title = parts[0].trim()
+        title = title.substring(0, title.length - 2)
+    }
+
+    let metas = { description: null, keywords: null }
+
+    let $meta_description = $('meta[name=description]')
+    if($meta_description.length > 0) {
+        metas['description'] = $meta_description.attr('content')
+    }
+
+    let $meta_keywords = $('meta[name=keywords]')
+    if($meta_keywords.length > 0) {
+        let keywords = $meta_keywords.attr('content').split(/[;,]+/gi)
+        keywords = keywords.map(value => value.trim()).filter(value => value.trim() !== '')
+
+        metas['keywords'] = keywords
+    }
+
+    let dateString = null
+    let text = ''
+    $('div#content p').each((i, p) => {
+        p = $(p).text().replace(/<[^<>]+>/gi, '').trim()
+
+        if(i === 0) {
+            let date_parts = p.replace(/\W/gi, ' ').split(' ').filter(value => { return value.trim() !== '' })
+            dateString = `${date_parts[0]} ${date_parts[1]} ${date_parts[2]}`
+        }
+        else {
+            text += p + '\n'
+        }
+    })
+
+    let report = {
+        key: _.chain(key_parts).reverse().join('-').value(),
+        permalink: url, // @TODO use https://perma.cc/docs/developer
+        timestamp: moment(dateString, 'DD MMM YYYY').utc().unix(),
+        source: 'http://employer-watch.oventi.net/sources/gov-au-fwo',
+        accuracy: 100,
+        title: title,
+        summary: metas.description,
+        text: text
+    }
+
+    return report
+}
+
+let process_report_page = (index, db) => {
+    let report_url = report_urls[index]
+    if(!report_url) {
+        console.log('closing database')
+        db.close()
+
+        console.log(`${reports_inserted} reports inserted`)
+
+        return
+    }
+    report_url = report_url.replace('http', 'https')
+
+    request(report_url, (error, response, body) => {
+        if (!error) {
+            let report = build_report(report_url, body)
+
+            db.collection('reports')
+                .insertOne(report)
+                .then(result => {
+                    console.log('report', report.key, 'inserted', result.insertedId)
+                    reports_inserted++
+
+                    process_report_page(index + 1, db)
+                })
+        }
+        else {
+            console.error(error)
+            console.error(report_url)
+        }
+    })
+}
+
+let MongoClient = mongodb.MongoClient
+let uri = `mongodb://oventi:${program.password}@employer-watch-shard-00-00-31uqi.mongodb.net:27017,employer-watch-shard-00-01-31uqi.mongodb.net:27017,employer-watch-shard-00-02-31uqi.mongodb.net:27017/employer-watch?ssl=true&replicaSet=employer-watch-shard-0&authSource=admin`
+
+MongoClient.connect(uri, function(error, db) {
+    if(error) {
+        console.error(error)
+        process.exit(3)
+    }
+
+    console.log('Deleting previous reports')
+    db.collection('reports')
+        .deleteMany({ key: { "$regex": `${program.year}.*${month}` } })
+        .then(result => {
+            //{ "acknowledged" : true, "deletedCount" : 10 }
+            console.log(`${result.deletedCount} reports deleted`)
+
+            let loop = 0
+            month_urls.forEach(url => {
+                request(url, (error, response, body) => {
+                    if (!error) {
+                        if(body.indexOf('Page not found') !== -1 && body.indexOf('404') !== -1) {
+                            console.error('404', url)
+                            loop++
+
+                            return
+                        }
+
+                        let urls = extract_report_urls(body)
+                        report_urls = report_urls.concat(urls)
+                        loop++
+
+                        if(loop === 2) {
+                            report_urls = _.uniq(report_urls)
+                            console.log('fetched', urls.length, 'reports')
+
+                            process_report_page(0, db)
+                        }
+                    }
+                    else {
+                        console.error(error)
+                        console.error(url)
+                    }
+                })
+            })
+        })
+})
