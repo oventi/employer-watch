@@ -67,7 +67,9 @@ Ever since I migrated to Australia, I have noticed and kept myself informed abou
 - id
 - key (temporary)
 - timestamp
-- source: Source
+- source: URI
+- _accuracy: 0 to 100 (future field)_
+- permalink: URI
 - title
 - summary (meta description)
 - text
