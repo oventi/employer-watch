@@ -52,14 +52,27 @@ Ever since I migrated to Australia, I have noticed and kept myself informed abou
 ## Preliminary Data Structures
 
 ### Employer
-- location: Location, Geocode or Geohash
-- reports: Report[]
+- id
+- key (temporary)
+- company: string
+- trading: string
 - brand: string
+- location: Location, Geocode or Geohash
+
+### Source
+- organisation
+- url
 
 ### Report
-- source: enum (gov, news article, person)
-- employer: Employer
-- location: Location
+- id
+- key (temporary)
+- timestamp
+- source: URI
+- _accuracy: 0 to 100 (future field)_
+- permalink: URI
+- title
+- summary (meta description)
+- text
 
 ### Location
 - country: string
@@ -67,3 +80,48 @@ Ever since I migrated to Australia, I have noticed and kept myself informed abou
 - adm2: string (city, county, etc)
 - address: string
 - employers: Employer[]
+
+----
+
+## Preliminary API urls
+
+### Employer
+/1.0/au/employers
+```json
+{
+    "employers": [
+        { "id": "123", "etc": "" },
+        { "id": "456", "etc": "" }
+    ],
+    "meta": {
+        "self": "/1.1/employers",
+        "previous": "/1.1/employers",
+        "next": "/1.1/employers/2"
+    }
+}
+```
+
+/1.0/au/employer/[employer id]
+```json
+{ "id": "123", "etc": "" }
+```
+
+### Reports
+
+/1.0/au/reports
+```json
+{
+    "reports": [
+        { "id": "123", "etc": "" }
+    ],
+    "meta": {
+        "self": "/1.0/au/reports",
+        "previous": "/1.0/au/reports",
+        "next": "/1.0/au/reports/2"
+    }
+}
+```
+
+/1.0/au/reports/[page id/number]
+
+/1.0/au/report/[report id]

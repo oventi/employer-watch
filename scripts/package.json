@@ -1,0 +1,35 @@
+{
+  "name": "employer-watch-scripts",
+  "version": "0.0.1",
+  "description": "employer-watch-scripts",
+  "engines": {
+    "node": "6.10.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": {
+    "name": "Andrés Proaño",
+    "email": "andres@oventi.org",
+    "url": "http://oventi.org/"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.11.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "mongodb": "^2.2.30",
+    "request": "^2.81.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "employer",
+    "watch",
+    "employer-watch-scripts"
+  ],
+  "license": "GPL-3.0"
+}
