@@ -81,6 +81,7 @@ class FwoReport extends React.Component {
                                     <i className="fa fa-spinner fa-spin" aria-hidden="true"></i>
                                 </div>
                             </Form>
+                            <div id="page_number">PAGE: {localStorage.page}</div>
                         </Col>
                     </Row>
                 </CardBlock>

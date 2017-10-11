@@ -16,7 +16,10 @@ class ReportList extends React.Component {
         this.previous_page = this.previous_page.bind(this)
         this.next_page = this.next_page.bind(this)
 
-        //localStorage.page = 1
+	if(typeof localStorage.page === 'undefined' || localStorage.page < config.initial_page) {
+	    localStorage.page = config.initial_page
+	}
+
         if(typeof localStorage.cards === 'undefined') {
             localStorage.cards = '{}'
         }
@@ -81,6 +84,13 @@ class ReportList extends React.Component {
     render() {
         return (
             <Container fluid={true}>
+		{/*<Row>
+                    <Col>
+			<div id="page_number">PAGE: {localStorage.page}</div>
+                    </Col>
+                </Row>
+                <hr />*/}
+
                 {/*<Row>
                     <Col>
                         <Button className="previous float-left">previous</Button>

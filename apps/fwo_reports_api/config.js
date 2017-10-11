@@ -4,7 +4,7 @@ module.exports = {
 
     redis: {
         connect: true,
-        host: 'employer-watch.fovchw.0001.apse1.cache.amazonaws.com',
+        host: 'employer-watch.fovchw.ng.0001.apse1.cache.amazonaws.com',
         port: 6379
     },
 
