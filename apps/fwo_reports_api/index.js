@@ -48,6 +48,11 @@ server.pre((req, res, next) => {
 server.post('/:action', api.action)
 server.get('/list', api.list)
 
+server.get(/\/?.*/, restify.serveStatic({
+    directory: './public',
+    default: 'index.html'
+}))
+
 server.listen(PORT, () => {
     console.log('Employer Watch Fwo Reports API is running on port', PORT)
 })

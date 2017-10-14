@@ -16,9 +16,9 @@ class ReportList extends React.Component {
         this.previous_page = this.previous_page.bind(this)
         this.next_page = this.next_page.bind(this)
 
-	if(typeof localStorage.page === 'undefined' || localStorage.page < config.initial_page) {
-	    localStorage.page = config.initial_page
-	}
+        if(typeof localStorage.page === 'undefined' || localStorage.page < config.initial_page) {
+          localStorage.page = config.initial_page
+        }
 
         if(typeof localStorage.cards === 'undefined') {
             localStorage.cards = '{}'
