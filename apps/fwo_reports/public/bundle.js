@@ -60,6 +60,17 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	if (window) {
+	  window.util = {
+	    clean: function clean() {
+	      delete localStorage['page'];
+	      delete localStorage['cards'];
+
+	      window.location.reload();
+	    }
+	  };
+	}
+
 	var root = document.getElementById('root');
 	_reactDom2.default.render(_react2.default.createElement(_ReportList2.default, null), root);
 
@@ -21983,16 +21994,16 @@
 	        value: function load_reports(page) {
 	            var _this2 = this;
 
-	            console.log('load_reports', page);
 	            var page_size = 1;
-	            var uri = window.location.href.replace(':5002/', ':5003');
-	            var reports_uri = uri + '/list?page=' + page + '&page_size=' + page_size;
+	            var reports_uri = config.fwo_reports_api + '/list?page=' + page + '&page_size=' + page_size;
+
+	            console.log('load_reports', page, reports_uri);
 
 	            $.getJSON(reports_uri, function (report_list) {
 	                var reports = [];
 
 	                report_list.forEach(function (report) {
-	                    //console.log('localStorage.cards', localStorage.cards)
+	                    console.log('localStorage.cards', localStorage.cards);
 	                    var cards = JSON.parse(localStorage.cards);
 	                    if (!cards[report.key]) {
 	                        reports.push(_react2.default.createElement(_FwoReport2.default, { key: report.key, data: report, after_action: _this2.next_page }));
@@ -31364,7 +31375,7 @@
 	'use strict';
 
 	module.exports = {
-	    employer_watch_api: 'http://localhost:5003',
+	    fwo_reports_api: 'http://localhost:3001',
 	    persistence_api_local: 'http://192.168.0.104:5003',
 	    persistence_api: 'http://ec2-54-179-168-36.ap-southeast-1.compute.amazonaws.com:5003',
 	    key_prefixes: {

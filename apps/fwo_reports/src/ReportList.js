@@ -55,8 +55,9 @@ class ReportList extends React.Component {
     load_reports(page) {
         console.log('load_reports', page)
         let page_size = 1;
-        let uri = window.location.href.replace(':5002/', ':5003')
-        let reports_uri = `${uri}/list?page=${page}&page_size=${page_size}`
+        let reports_uri = `${config.fwo_reports_api}/list?page=${page}&page_size=${page_size}`
+
+        console.log('load_reports', page, reports_uri)
 
         $.getJSON(reports_uri, report_list => {
             let reports = []

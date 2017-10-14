@@ -1,8 +1,8 @@
 'use strict'
 
-const PORT = process.env.PORT || 5003
 const restify = require('restify')
 const config = require('./config.js')
+const PORT = config.port || 3000
 const redis = require('redis')
 const FwoReportApi = require('./models/FwoReportApi.js')
 const request = require('request')
