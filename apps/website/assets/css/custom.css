@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Satisfy');
+
+#banner h2, h2.major, h3.major {
+  border-bottom: solid 2px rgba(255, 255, 255, 0.5);
+}
+
+h2.major, #banner p.slogan {
+  font-family: 'Satisfy', cursive;
+  font-size: 1.5em;
+}
+
 #about {
   background-image: url('https://images.unsplash.com/photo-1500527345693-70ae22009d69?dpr=1&auto=compress,format&fit=crop&w=500&h=&q=80&cs=tinysrgb&crop=');
   border-radius: 100%;
@@ -14,8 +25,12 @@
   background-position: -120px -5px;
 }
 
+#two, #three {
+  margin-top: 6.4em !important;
+  margin-bottom: 6.4em !important;
+}
+
 #four a.image {
-  height: 334px;
   overflow: hidden;
 }
 
@@ -51,4 +66,8 @@
 }
 .wrapper:before, .wrapper:after {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpolygon points='0,100 100,0 100,100' style='fill:%2341627F%3B' /%3E%3C/svg%3E");
+}
+
+.features article {
+  background-color: #86A7C4;
 }
